@@ -1,1 +1,1 @@
-# Secure-remote-eks-access
+# Secured-remote-eks-access
