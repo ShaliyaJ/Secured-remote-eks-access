@@ -8,11 +8,9 @@ This repository contains the write up for Shaliya's DevOps Engineering Fellowshi
 3. [System Diagram](README.md#background)
 4. [Usage](README.md#usage)
 	* Setting up AWS EKS
-	* Setting up Okta
-5. [Outcomes](README.md#outcomes)
-	* Demo
-	* Demo
-6. [Conclusion](README.md#conclusion)
+	* Setting up Okta in AWS
+5. [Outcome](README.md#outcomes)
+
 
 ## Introduction
 
@@ -52,7 +50,7 @@ Add the following in your `~/.bashrc` or `~/.zshrc` with your credentials:
 export AWS_ACCESS_KEY_ID=YOUR_AWS_ACCESS_KEY_ID
 export AWS_SECRET_ACCESS_KEY=YOUR_AWS_SECRET_ACCESS_KEY
 ```
-### Setting up Okta
+### Setting up Okta in AWS
 This example setups an AWS account for login via Okta, using both Okta modules [master](../../modules/master) and [child](../../modules/child) in one account. It creates two roles which can be assumed via Okta. 
 
 To run the example:
@@ -79,7 +77,8 @@ terraform output
 5) Login to your AWS account and generate an access and secret key for the user created above.
 6) Use the credentials to configure the AWS Okta app. See the [Okta App Configuration](https://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-for-Amazon-Web-Service#A-step4) docs.
 7) Remember to update the IDP Arn in Okta app:
-![Fig 2: okta arn]("https://github.com/ShaliyaJ/Secured-remote-eks-access/blob/main/okta_config_arn.png)
+
+![Fig 2: okta arn](https://github.com/ShaliyaJ/Secured-remote-eks-access/blob/main/okta_config_arn.png)
 
 8) You should also see the following in the outputs section:
 
@@ -111,6 +110,24 @@ cd ../../EKS
 terraform init
 terraform apply
 ```
+
+To configure kubectl, run the following command to retrieve the access credentials for your cluster and automatically configure kubectl (the Kubernetes cluster name and region correspond to the output variables showed after the successful Terraform run).
+```
+aws eks --region $(terraform output region) update-kubeconfig --name $(terraform output cluster_name)
+```
+
+
+## Outcomes 
+
+As the outcome of the project, the roles that can be assumed for authentication by the developer has been shown (the role names have been changed for demo purpose).
+
+![Fig 3: output](https://github.com/ShaliyaJ/Secured-remote-eks-access/blob/main/roles.png)
+
+
+
+
+
+
 
 
 
